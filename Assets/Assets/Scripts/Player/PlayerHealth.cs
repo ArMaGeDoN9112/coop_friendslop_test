@@ -32,7 +32,7 @@ namespace Coop.Player
             Debug.Log($"Player {netId} revived!");
         }
 
-        private void OnStateChanged(bool oldState, bool newState)
+        private void OnStateChanged(bool _, bool newState)
         {
             if (_reviveComponent) _reviveComponent.ToggleInteractable(newState);
             if (_movement) _movement.SetWoundedState(newState);

@@ -14,6 +14,6 @@ namespace Coop.Interaction
 
         public void ToggleInteractable(bool active) => _canBeRevived = active;
 
-        public void OnInteract(GameObject interactor) => _playerHealth.Revive();
+        public void OnInteract() => _playerHealth.Revive();
     }
 }

@@ -41,28 +41,22 @@ namespace Coop.Player
         }
 
         [Command]
-        private void CmdSetupPlayer(string _name, Color _col)
+        private void CmdSetupPlayer(string name, Color color)
         {
-            PlayerName = _name;
-            PlayerColor = _col;
-
-            _sceneScript.ServerLog($"{PlayerName} joined the game.");
+            PlayerName = name;
+            PlayerColor = color;
         }
 
-        [Command]
-        public void CmdSendPlayerMessage() =>
-            _sceneScript.ServerLog($"{PlayerName} says hello {Random.Range(10, 99)}");
-
-        private void OnNameChanged(string _Old, string _New)
+        private void OnNameChanged(string _, string newName)
         {
-            _nameLabel3D.text = _New;
-            gameObject.name = _New;
+            _nameLabel3D.text = newName;
+            gameObject.name = newName;
         }
 
-        private void OnColorChanged(Color _Old, Color _New)
+        private void OnColorChanged(Color _, Color newColor)
         {
-            _nameLabel3D.color = _New;
-            _bodyRenderer.material.color = _New;
+            _nameLabel3D.color = newColor;
+            _bodyRenderer.material.color = newColor;
         }
     }
 }

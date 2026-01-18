@@ -20,14 +20,6 @@ namespace Coop.Player
         [Inject]
         public void Construct(SceneScript sceneScript) => _sceneScript = sceneScript;
 
-        private void Start()
-        {
-            if (!isLocalPlayer) return;
-
-            var uiObj = GameObject.Find("InteractionText");
-            if (uiObj) _interactionText = uiObj.GetComponent<TMP_Text>();
-        }
-
         private void Update()
         {
             if (!isLocalPlayer) return;
@@ -79,7 +71,7 @@ namespace Coop.Player
             var interactable = targetObj.GetComponent<IInteractable>() ??
                                targetObj.GetComponentInParent<IInteractable>();
 
-            interactable?.OnInteract(gameObject);
+            interactable?.OnInteract();
         }
     }
 }

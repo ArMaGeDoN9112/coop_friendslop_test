@@ -7,8 +7,6 @@ using Zenject;
 
 namespace Coop.Scene
 {
-    // Этот скрипт должен висеть на объекте в сцене (например, "GameManager" или "SceneReference")
-    // У этого объекта должен быть NetworkIdentity!
     public class SceneScript : NetworkBehaviour
     {
         [Header("UI References")] public TMP_Text _canvasStatusText;
@@ -36,10 +34,7 @@ namespace Coop.Scene
             _interactionInfoText.gameObject.SetActive(active);
         }
 
-
-        private void OnStatusTextChanged(string _Old, string _New) => _canvasStatusText.text = _New;
-
-        public void ButtonSendMessage() => LocalPlayer.CmdSendPlayerMessage();
+        private void OnStatusTextChanged(string _, string newText) => _canvasStatusText.text = newText;
 
         private void ChangeScene()
         {
@@ -61,8 +56,5 @@ namespace Coop.Scene
                 _networkManager.StopClient();
             else if (NetworkServer.active) _networkManager.StopServer();
         }
-
-        [Server]
-        public void ServerLog(string message) => statusText = message;
     }
 }

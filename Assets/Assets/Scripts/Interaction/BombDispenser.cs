@@ -18,7 +18,7 @@ namespace Coop.Interaction
 
         public string InteractionPrompt => "Press E to get Bomb";
 
-        public void OnInteract(GameObject interactor) => ActivateDispenser();
+        public void OnInteract() => ActivateDispenser();
 
         // Вызывается из PlayerInteraction через Command
         [Server]

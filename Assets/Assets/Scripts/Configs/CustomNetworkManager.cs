@@ -23,7 +23,7 @@ namespace Coop.Configs
         {
             base.OnStopServer();
 
-            SceneManager.LoadScene("Menu");
+            SceneManager.LoadScene("Menu"); //TODO: move to config
         }
     }
 }

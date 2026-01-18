@@ -1,11 +1,9 @@
-﻿using UnityEngine;
-
-namespace Coop.Interaction
+﻿namespace Coop.Interaction
 {
     public interface IInteractable
     {
         string InteractionPrompt { get; }
 
-        void OnInteract(GameObject interactor);
+        void OnInteract();
     }
 }
