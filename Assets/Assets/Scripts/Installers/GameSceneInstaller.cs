@@ -1,8 +1,9 @@
 ﻿using Coop.Configs;
+using Coop.Scene;
 using UnityEngine;
 using Zenject;
 
-namespace Coop.Scene
+namespace Coop.Installers
 {
     public class GameSceneInstaller : MonoInstaller
     {

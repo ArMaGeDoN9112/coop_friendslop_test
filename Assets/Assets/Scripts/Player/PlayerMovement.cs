@@ -28,6 +28,12 @@ namespace Coop.Player
             Cursor.visible = false;
         }
 
+        private void OnDestroy()
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
         public override void OnStartLocalPlayer()
         {
             if (!Camera.main) return;

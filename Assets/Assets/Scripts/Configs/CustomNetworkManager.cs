@@ -1,5 +1,5 @@
 ﻿using Mirror;
-using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace Coop.Configs
@@ -11,18 +11,19 @@ namespace Coop.Configs
             var startPos = GetStartPosition();
 
             var sceneContext = FindAnyObjectByType<SceneContext>();
-
-            if (!sceneContext)
-            {
-                Debug.LogError("FATAL: На сцене нет SceneContext! Не могу заспавнить игрока с зависимостями.");
-                return;
-            }
-
             var sceneContainer = sceneContext.Container;
+
             var player =
                 sceneContainer.InstantiatePrefab(playerPrefab, startPos.position, startPos.rotation, null);
 
             NetworkServer.AddPlayerForConnection(conn, player);
+        }
+
+        public override void OnStopServer()
+        {
+            base.OnStopServer();
+
+            SceneManager.LoadScene("Menu");
         }
     }
 }

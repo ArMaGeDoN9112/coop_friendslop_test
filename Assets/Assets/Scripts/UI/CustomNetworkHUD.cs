@@ -16,7 +16,6 @@ namespace Coop.UI
             [SerializeField] private Button _buttonHost;
             [SerializeField] private Button _buttonClient;
             [SerializeField] private Button _buttonServerOnly;
-            [SerializeField] private GameObject _panelConnection;
             [SerializeField] private Button _buttonStop;
 
             private NetworkManager _networkManager;
@@ -26,8 +25,6 @@ namespace Coop.UI
 
             private void Start()
             {
-                Debug.Log(_networkManager);
-
                 if (_inputFieldAddress)
                 {
                     _inputFieldAddress.text = "localhost";
@@ -47,15 +44,9 @@ namespace Coop.UI
             private void UpdateUIState()
             {
                 if (!NetworkClient.isConnected && !NetworkServer.active)
-                {
-                    _panelConnection.SetActive(true);
                     _buttonStop.gameObject.SetActive(false);
-                }
                 else
-                {
-                    _panelConnection.SetActive(false);
                     _buttonStop.gameObject.SetActive(true);
-                }
             }
 
             private void OnAddressChanged(string address) => _networkManager.networkAddress = address;

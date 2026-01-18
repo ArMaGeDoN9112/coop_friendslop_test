@@ -3,6 +3,7 @@ using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Zenject;
 
 namespace Coop.Scene
 {
@@ -18,9 +19,15 @@ namespace Coop.Scene
 
         public PlayerInfo LocalPlayer { get; set; }
 
+        private NetworkManager _networkManager;
+
+        [Inject]
+        private void Construct(NetworkManager networkManager) => _networkManager = networkManager;
+
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.R)) ChangeScene();
+            if (Input.GetKeyDown(KeyCode.Escape)) ExitServer();
         }
 
         public void SetInteractionText(bool active, string text = "")
@@ -41,9 +48,18 @@ namespace Coop.Scene
                 var scene = SceneManager.GetActiveScene();
 
                 string nextScene = scene.name == "Scene1" ? "Scene2" : "Scene1";
-                NetworkManager.singleton.ServerChangeScene(nextScene);
+                _networkManager.ServerChangeScene(nextScene);
             }
             else { _canvasStatusText.text = "Only Host can change scene."; }
+        }
+
+        private void ExitServer()
+        {
+            if (NetworkServer.active && NetworkClient.isConnected)
+                _networkManager.StopHost();
+            else if (NetworkClient.isConnected)
+                _networkManager.StopClient();
+            else if (NetworkServer.active) _networkManager.StopServer();
         }
 
         [Server]

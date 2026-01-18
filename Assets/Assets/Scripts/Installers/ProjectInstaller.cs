@@ -1,13 +1,13 @@
-﻿using Mirror;
+﻿using Coop.Configs;
+using Mirror;
 using UnityEngine;
 using Zenject;
 
-namespace Coop.Configs
+namespace Coop.Installers
 {
     public class ProjectInstaller : MonoInstaller
     {
         [SerializeField] private NetworkManager _networkManagerPrefab;
-        [SerializeField] private GameObject _playerPrefab;
 
         public override void InstallBindings()
         {

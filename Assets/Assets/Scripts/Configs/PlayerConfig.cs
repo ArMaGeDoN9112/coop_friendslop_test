@@ -5,6 +5,8 @@ namespace Coop.Configs
     [CreateAssetMenu(fileName = "PlayerConfig", menuName = "Configs/PlayerConfig")]
     public class PlayerConfig : ScriptableObject
     {
+        [field: SerializeField] public GameObject PlayerPrefab { get; private set; }
+
         [Header("Movement")] public float MoveSpeed = 5f;
         public float CrawlSpeedFactor = 0.3f;
         public float Gravity = -9.81f;
