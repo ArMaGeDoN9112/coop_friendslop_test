@@ -4,6 +4,6 @@ namespace Coop.Player.Services
 {
     public interface IPlayerInteractionService
     {
-        bool TryGetInteractable(out IInteractable interactable);
+        public bool TryGetInteractable(bool isOnlineInteraction, out IInteractable interactable);
     }
 }

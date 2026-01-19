@@ -24,7 +24,7 @@ namespace Coop.Player.Components
         {
             if (!isLocalPlayer) return;
 
-            bool found = _interactionService.TryGetInteractable(out var interactable);
+            bool found = _interactionService.TryGetInteractable(true, out var interactable);
 
             if (found && interactable.CanInteract)
                 _uiService.ShowHint(interactable);
