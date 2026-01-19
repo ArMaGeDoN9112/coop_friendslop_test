@@ -8,23 +8,28 @@ namespace Coop.Configs
     {
         private readonly DiContainer _container;
         private readonly NetworkManager _networkManager;
+        private readonly PrefabsConfig _prefabsConfig;
 
-        public MirrorZenjectBridge(DiContainer container, NetworkManager networkManager, PlayerConfig playerConfig)
+        public MirrorZenjectBridge(DiContainer container, NetworkManager networkManager, PrefabsConfig prefabsConfig)
         {
             _container = container;
             _networkManager = networkManager;
+            _prefabsConfig = prefabsConfig;
         }
 
         public void Initialize()
         {
-            NetworkClient.RegisterPrefab(_networkManager.playerPrefab,
-                msg => SpawnHandler(_networkManager.playerPrefab, msg),
-                UnspawnHandler);
-
-            foreach (var prefab in _networkManager.spawnPrefabs)
+            foreach (var prefab in _prefabsConfig.PrefabsToRegister)
                 NetworkClient.RegisterPrefab(prefab,
                     msg => SpawnHandler(prefab, msg),
                     UnspawnHandler);
+        }
+
+        public void Dispose()
+        {
+            if (!_networkManager) return;
+
+            foreach (var prefab in _prefabsConfig.PrefabsToRegister) NetworkClient.UnregisterPrefab(prefab);
         }
 
         private GameObject SpawnHandler(GameObject prefab, SpawnMessage msg) =>

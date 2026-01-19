@@ -1,35 +1,48 @@
 ﻿using System.Collections;
+using Coop.Configs;
 using Mirror;
 using UnityEngine;
+using Zenject;
 
 namespace Coop.Interaction.InteractableObjects
 {
     [RequireComponent(typeof(NetworkIdentity))]
     public class BombDispenser : NetworkBehaviour, IInteractable
     {
-        [Header("Settings")] [SerializeField] private float _spawnDelay = 1.0f;
-        [SerializeField] private string _promptText = "Press E to Dispense";
+        [Header("Settings")] [SerializeField] private string _promptText;
 
-        [Header("Visuals")] [SerializeField]
-        private Transform _interactionAnchor; // Сюда перетяни пустой объект над автоматом
+        [Header("Visuals")] [SerializeField] private Transform _interactionAnchor;
 
-        [Header("Spawning")] [SerializeField] private GameObject _bombPrefab;
-        [SerializeField] private Transform _spawnPoint;
+        [Header("Spawning")] [SerializeField] private Transform _spawnPoint;
 
-        [Header("Effects")] [SerializeField] private AudioSource _audioSource;
-        [SerializeField] private ParticleSystem _activationParticles;
+        [Header("Effects")] [SerializeField] private ParticleSystem _activationParticles;
 
         [SyncVar] private bool _isBusy;
 
+        private AudioSource _audioSource;
+        private GameObject _bombPrefab;
+        private DiContainer _container;
+        private BombDispencerConfig _bombDispencerConfig;
+
+        [Inject]
+        public void Construct(DiContainer container, BombConfig bombConfig, BombDispencerConfig bombDispencerConfig)
+        {
+            _container = container;
+            _bombPrefab = bombConfig.BombPrefab;
+            _bombDispencerConfig = bombDispencerConfig;
+        }
+
+        private void Awake() => _audioSource = GetComponent<AudioSource>();
+
         #region IInteractable
 
-        public string InteractionPrompt => _isBusy ? "Dispensing..." : _promptText;
+        public string InteractionPrompt => _bombDispencerConfig.InteractionHintText;
 
         public bool CanInteract => !_isBusy;
 
-        public Transform InteractionAnchor => _interactionAnchor != null ? _interactionAnchor : transform;
+        public Transform InteractionAnchor => _interactionAnchor;
 
-        public void OnInteract(GameObject interactor) { ActivateDispenser(); }
+        public void OnInteract(GameObject interactor) => ActivateDispenser();
 
         #endregion
 
@@ -38,6 +51,7 @@ namespace Coop.Interaction.InteractableObjects
         private void ActivateDispenser()
         {
             if (_isBusy) return;
+
             StartCoroutine(SpawnRoutine());
         }
 
@@ -47,13 +61,13 @@ namespace Coop.Interaction.InteractableObjects
 
             RpcPlayEffects();
 
-            yield return new WaitForSeconds(_spawnDelay);
+            yield return new WaitForSeconds(_bombDispencerConfig.SpawnDelay);
 
-            var bomb = Instantiate(_bombPrefab, _spawnPoint.position, _spawnPoint.rotation);
+            var bomb = _container.InstantiatePrefab(_bombPrefab, _spawnPoint.position, _spawnPoint.rotation, null);
             NetworkServer.Spawn(bomb);
 
             if (bomb.TryGetComponent(out Rigidbody rb))
-                rb.AddForce(_spawnPoint.forward * 5f + Vector3.up * 2f, ForceMode.Impulse);
+                rb.AddForce(_spawnPoint.forward * 5f + Vector3.up * 2f, ForceMode.Impulse); // TODO: move to config
 
             _isBusy = false;
         }
@@ -61,7 +75,9 @@ namespace Coop.Interaction.InteractableObjects
         [ClientRpc]
         private void RpcPlayEffects()
         {
-            if (_audioSource) _audioSource.Play();
+            _audioSource.clip = _bombDispencerConfig.UsageSound;
+            _audioSource.Play();
+
             if (_activationParticles) _activationParticles.Play();
         }
     }

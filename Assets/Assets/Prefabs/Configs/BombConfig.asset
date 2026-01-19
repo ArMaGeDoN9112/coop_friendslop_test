@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 430417969f874b999bc2ae1042eba80a, type: 3}
+  m_Name: BombConfig
+  m_EditorClassIdentifier: 
+  <BombPrefab>k__BackingField: {fileID: 4075605326332463876, guid: ea233dd839ed4b248ab772c245604ef8, type: 3}
+  <TimeToExplode>k__BackingField: 3
+  <ExplosionRadius>k__BackingField: 5
+  <ExplosionVFXPrefab>k__BackingField: {fileID: 3541824122575945221, guid: 7fc6fa075b814ed46a22758d73d16b55, type: 3}
+  <SoundEffect>k__BackingField: {fileID: 8300000, guid: 69c81960d0ad31d4496095e380c0f632, type: 3}

@@ -13,3 +13,6 @@ MonoBehaviour:
   m_Name: ConfigInstaller
   m_EditorClassIdentifier: 
   _playerConfig: {fileID: 11400000, guid: 399d35e58ee824147a555da1e7eaa8ef, type: 2}
+  _bombConfig: {fileID: 11400000, guid: 10dc86884e2b1d74a8efa2d56d150d28, type: 2}
+  _prefabsConfig: {fileID: 11400000, guid: 165e4c6a530e39c46b0cd5b8d3a45849, type: 2}
+  _bombDispencerConfig: {fileID: 11400000, guid: 23ccf993b6b0e164ab060f5cc472b554, type: 2}

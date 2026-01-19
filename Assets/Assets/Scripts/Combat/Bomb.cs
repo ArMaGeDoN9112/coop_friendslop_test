@@ -1,43 +1,73 @@
 ﻿using System.Collections;
+using Coop.Configs;
 using Coop.Player.Components;
 using Mirror;
 using UnityEngine;
+using Zenject;
 
 namespace Coop.Combat
 {
     public class Bomb : NetworkBehaviour
     {
-        [SerializeField] private float _timeToExplode = 3f;
-        [SerializeField] private float _explosionRadius = 5f;
-        [SerializeField] private GameObject _explosionVFXPrefab;
+        private Renderer _renderer;
+        private Collider _collider;
+        private BombConfig _bombConfig;
+
+        [Inject]
+        private void Construct(BombConfig bombConfig) => _bombConfig = bombConfig;
+
+        private void Awake()
+        {
+            _renderer = GetComponent<Renderer>();
+            _collider = GetComponent<Collider>();
+        }
+
+        private void Start() => Debug.Log(_bombConfig);
 
         public override void OnStartServer() => StartCoroutine(ExplosionRoutine());
 
         private IEnumerator ExplosionRoutine()
         {
-            yield return new WaitForSeconds(_timeToExplode);
+            yield return new WaitForSeconds(_bombConfig.TimeToExplode);
             Explode();
         }
 
         [Server]
         private void Explode()
         {
-            RpcExplosionEffects(transform.position);
+            RpcHideVisuals();
+            RpcSpawnExplosionEffect(transform.position);
 
-            var hits = Physics.OverlapSphere(transform.position, _explosionRadius);
+            var hits = Physics.OverlapSphere(transform.position, _bombConfig.ExplosionRadius);
             foreach (var hit in hits)
             {
                 var health = hit.GetComponent<PlayerHealth>() ?? hit.GetComponentInParent<PlayerHealth>();
                 if (health) health.TakeDamage();
             }
 
-            NetworkServer.Destroy(gameObject);
+            StartCoroutine(DestroyWithDelay());
         }
 
         [ClientRpc]
-        private void RpcExplosionEffects(Vector3 position)
+        private void RpcHideVisuals()
         {
-            if (_explosionVFXPrefab) Instantiate(_explosionVFXPrefab, position, Quaternion.identity);
+            _renderer.enabled = false;
+            _collider.enabled = false;
+        }
+
+        [ClientRpc]
+        private void RpcSpawnExplosionEffect(Vector3 position)
+        {
+            var effect = Instantiate(_bombConfig.ExplosionVFXPrefab, position, Quaternion.identity);
+            var audioSource = effect.GetComponent<AudioSource>();
+            audioSource.clip = _bombConfig.SoundEffect;
+            audioSource.Play();
+        }
+
+        private IEnumerator DestroyWithDelay()
+        {
+            yield return new WaitForSeconds(0.1f);
+            NetworkServer.Destroy(gameObject);
         }
     }
 }
