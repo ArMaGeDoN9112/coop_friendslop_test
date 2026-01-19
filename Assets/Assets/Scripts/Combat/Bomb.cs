@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Coop.Player;
+using Coop.Player.Components;
 using Mirror;
 using UnityEngine;
 
@@ -38,7 +38,6 @@ namespace Coop.Combat
         private void RpcExplosionEffects(Vector3 position)
         {
             if (_explosionVFXPrefab) Instantiate(_explosionVFXPrefab, position, Quaternion.identity);
-            // Тут можно добавить звук взрыва
         }
     }
 }

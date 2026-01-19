@@ -1,4 +1,4 @@
-﻿using Coop.Player;
+﻿using Coop.Player.Components;
 using Mirror;
 using TMPro;
 using UnityEngine;
@@ -10,7 +10,6 @@ namespace Coop.Scene
     public class SceneScript : NetworkBehaviour
     {
         [Header("UI References")] public TMP_Text _canvasStatusText;
-        public TMP_Text _interactionInfoText;
 
         [SyncVar(hook = nameof(OnStatusTextChanged))]
         public string statusText;
@@ -26,12 +25,6 @@ namespace Coop.Scene
         {
             if (Input.GetKeyDown(KeyCode.R)) ChangeScene();
             if (Input.GetKeyDown(KeyCode.Escape)) ExitServer();
-        }
-
-        public void SetInteractionText(bool active, string text = "")
-        {
-            _interactionInfoText.text = text;
-            _interactionInfoText.gameObject.SetActive(active);
         }
 
         private void OnStatusTextChanged(string _, string newText) => _canvasStatusText.text = newText;

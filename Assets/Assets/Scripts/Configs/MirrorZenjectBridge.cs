@@ -17,6 +17,10 @@ namespace Coop.Configs
 
         public void Initialize()
         {
+            NetworkClient.RegisterPrefab(_networkManager.playerPrefab,
+                msg => SpawnHandler(_networkManager.playerPrefab, msg),
+                UnspawnHandler);
+
             foreach (var prefab in _networkManager.spawnPrefabs)
                 NetworkClient.RegisterPrefab(prefab,
                     msg => SpawnHandler(prefab, msg),

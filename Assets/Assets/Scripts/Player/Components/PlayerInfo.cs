@@ -5,7 +5,7 @@ using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
 
-namespace Coop.Player
+namespace Coop.Player.Components
 {
     public class PlayerInfo : NetworkBehaviour
     {
