@@ -26,9 +26,7 @@ namespace Coop.Player.Services
         {
             if (_controller.isGrounded && _velocity.y < 0) _velocity.y = -2f;
 
-            float currentSpeed = _isWounded
-                ? _config.MoveSpeed * _config.CrawlSpeedFactor
-                : _config.MoveSpeed;
+            float currentSpeed = _isWounded ? _config.CrawlSpeed : _config.MoveSpeed;
 
             var move = _transform.right * inputX + _transform.forward * inputZ;
 

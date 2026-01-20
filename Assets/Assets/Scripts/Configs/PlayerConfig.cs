@@ -11,7 +11,7 @@ namespace Coop.Configs
         [field: SerializeField]
         public float MoveSpeed { get; private set; } = 5f;
 
-        [field: SerializeField] public float CrawlSpeedFactor { get; private set; } = 0.3f;
+        [field: SerializeField] public float CrawlSpeed { get; private set; } = 2f;
         [field: SerializeField] public float Gravity { get; private set; } = -9.81f;
 
         [Header("Camera")]
@@ -19,5 +19,6 @@ namespace Coop.Configs
         public float MouseSensitivity { get; private set; } = 2f;
 
         [field: SerializeField] public float InteractDistance { get; private set; } = 10f;
+        [field: SerializeField] public float AnimationDampTime { get; private set; } = 0.1f;
     }
 }

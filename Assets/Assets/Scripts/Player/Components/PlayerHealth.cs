@@ -13,6 +13,8 @@ namespace Coop.Player.Components
         private IPlayerHealthService _healthService;
         private PlayerMovement _movementView;
         private ReviveComponent _reviveComponent;
+        private PlayerAnimation _playerAnimation;
+
 
         [Inject]
         public void Construct(IPlayerHealthService healthService, PlayerMovement movementView)
@@ -21,7 +23,11 @@ namespace Coop.Player.Components
             _movementView = movementView;
         }
 
-        private void Awake() => _reviveComponent = GetComponent<ReviveComponent>();
+        private void Awake()
+        {
+            _reviveComponent = GetComponent<ReviveComponent>();
+            _playerAnimation = GetComponent<PlayerAnimation>();
+        }
 
         [Server]
         public void TakeDamage()
@@ -44,6 +50,7 @@ namespace Coop.Player.Components
             _healthService.ApplyStateEffects(newState);
             _movementView.OnWoundedStateChanged(newState);
             _reviveComponent.ToggleInteractable(newState);
+            _playerAnimation.HandleWoundedState(newState);
         }
     }
 }
