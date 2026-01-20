@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using Coop.Configs;
+﻿using Coop.Configs;
 using Coop.Player.Components;
+using Cysharp.Threading.Tasks;
 using Mirror;
 using UnityEngine;
 using Zenject;
@@ -22,13 +22,14 @@ namespace Coop.Combat
             _collider = GetComponent<Collider>();
         }
 
-        private void Start() => Debug.Log(_bombConfig);
+        public override void OnStartServer() => ExplosionRoutineAsync().Forget();
 
-        public override void OnStartServer() => StartCoroutine(ExplosionRoutine());
-
-        private IEnumerator ExplosionRoutine()
+        private async UniTaskVoid ExplosionRoutineAsync()
         {
-            yield return new WaitForSeconds(_bombConfig.TimeToExplode);
+            await UniTask.WaitForSeconds(_bombConfig.TimeToExplode,
+                cancellationToken: this.GetCancellationTokenOnDestroy());
+
+            if (!this) return;
             Explode();
         }
 
@@ -45,7 +46,7 @@ namespace Coop.Combat
                 if (health) health.TakeDamage();
             }
 
-            StartCoroutine(DestroyWithDelay());
+            DestroyWithDelayAsync().Forget();
         }
 
         [ClientRpc]
@@ -64,9 +65,11 @@ namespace Coop.Combat
             audioSource.Play();
         }
 
-        private IEnumerator DestroyWithDelay()
+        private async UniTaskVoid DestroyWithDelayAsync()
         {
-            yield return new WaitForSeconds(0.1f);
+            await UniTask.WaitForSeconds(0.1f,
+                cancellationToken: this.GetCancellationTokenOnDestroy());
+
             NetworkServer.Destroy(gameObject);
         }
     }

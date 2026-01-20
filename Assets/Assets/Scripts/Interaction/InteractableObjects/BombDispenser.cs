@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using Coop.Configs;
+﻿using Coop.Configs;
 using Coop.Utils;
+using Cysharp.Threading.Tasks;
 using Mirror;
 using UnityEngine;
 using Zenject;
@@ -51,25 +51,30 @@ namespace Coop.Interaction.InteractableObjects
         {
             if (_isBusy) return;
 
-            StartCoroutine(SpawnRoutine());
+            SpawnRoutineAsync().Forget();
         }
 
-        private IEnumerator SpawnRoutine() //TODO: refactor with unitask
+        private async UniTaskVoid SpawnRoutineAsync()
         {
             _isBusy = true;
 
-            RpcPlayEffects();
+            try
+            {
+                RpcPlayEffects();
 
-            yield return new WaitForSeconds(_bombDispencerConfig.SpawnDelay);
+                await UniTask.WaitForSeconds(_bombDispencerConfig.SpawnDelay,
+                    cancellationToken: this.GetCancellationTokenOnDestroy());
 
-            var bomb = _prefabFactory.Create(_bombPrefab, null, _spawnPoint.position, _spawnPoint.rotation);
-            NetworkServer.Spawn(bomb);
+                if (!this) return;
 
-            if (bomb.TryGetComponent(out Rigidbody rb))
-                rb.AddForce(_spawnPoint.forward * _bombDispencerConfig.ForwardStrength +
-                            Vector3.up * _bombDispencerConfig.UpStrength, ForceMode.Impulse);
+                var bomb = _prefabFactory.Create(_bombPrefab, null, _spawnPoint.position, _spawnPoint.rotation);
+                NetworkServer.Spawn(bomb);
 
-            _isBusy = false;
+                if (bomb.TryGetComponent(out Rigidbody rb))
+                    rb.AddForce(_spawnPoint.forward * _bombDispencerConfig.ForwardStrength +
+                                Vector3.up * _bombDispencerConfig.UpStrength, ForceMode.Impulse);
+            }
+            finally { _isBusy = false; }
         }
 
         [ClientRpc]
