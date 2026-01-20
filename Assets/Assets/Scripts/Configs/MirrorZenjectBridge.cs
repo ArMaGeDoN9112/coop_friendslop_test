@@ -2,6 +2,7 @@
 using Mirror;
 using UnityEngine;
 using Zenject;
+using Object = UnityEngine.Object;
 
 namespace Coop.Configs
 {
@@ -21,6 +22,12 @@ namespace Coop.Configs
 
         public void Initialize()
         {
+            NetworkClient.UnregisterPrefab(_networkManager.playerPrefab);
+
+            NetworkClient.RegisterPrefab(_networkManager.playerPrefab,
+                msg => SpawnHandler(_networkManager.playerPrefab, msg),
+                UnspawnHandler);
+
             foreach (var prefab in _prefabsConfig.PrefabsToRegister)
                 NetworkClient.RegisterPrefab(prefab,
                     msg => SpawnHandler(prefab, msg),

@@ -1,6 +1,5 @@
 ﻿using Mirror;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace Coop.Scene
@@ -14,19 +13,7 @@ namespace Coop.Scene
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.R)) ChangeScene();
             if (Input.GetKeyDown(KeyCode.Escape)) ExitServer();
-        }
-
-        private void ChangeScene()
-        {
-            if (isServer)
-            {
-                var scene = SceneManager.GetActiveScene();
-
-                string nextScene = scene.name == "Scene1" ? "Scene2" : "Scene1";
-                _networkManager.ServerChangeScene(nextScene);
-            }
         }
 
         private void ExitServer()
