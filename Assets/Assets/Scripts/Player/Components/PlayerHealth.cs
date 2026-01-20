@@ -1,5 +1,4 @@
 ﻿using Coop.Interaction.InteractableObjects;
-using Coop.Player.Services;
 using Mirror;
 using Zenject;
 
@@ -8,20 +7,15 @@ namespace Coop.Player.Components
     public class PlayerHealth : NetworkBehaviour
     {
         [SyncVar(hook = nameof(OnStateChanged))]
-        public bool isWounded;
+        public bool IsWounded;
 
-        private IPlayerHealthService _healthService;
         private PlayerMovement _movementView;
         private ReviveComponent _reviveComponent;
         private PlayerAnimation _playerAnimation;
 
 
         [Inject]
-        public void Construct(IPlayerHealthService healthService, PlayerMovement movementView)
-        {
-            _healthService = healthService;
-            _movementView = movementView;
-        }
+        public void Construct(PlayerMovement movementView) => _movementView = movementView;
 
         private void Awake()
         {
@@ -32,22 +26,21 @@ namespace Coop.Player.Components
         [Server]
         public void TakeDamage()
         {
-            if (isWounded) return;
+            if (IsWounded) return;
 
-            isWounded = true;
+            IsWounded = true;
         }
 
         [Server]
         public void Revive()
         {
-            if (!isWounded) return;
+            if (!IsWounded) return;
 
-            isWounded = false;
+            IsWounded = false;
         }
 
         private void OnStateChanged(bool _, bool newState)
         {
-            _healthService.ApplyStateEffects(newState);
             _movementView.OnWoundedStateChanged(newState);
             _reviveComponent.ToggleInteractable(newState);
             _playerAnimation.HandleWoundedState(newState);

@@ -16,7 +16,6 @@ namespace Coop.Installers
         public override void InstallBindings()
         {
             Container.BindInterfacesTo<PlayerMovementService>().AsSingle();
-            Container.BindInterfacesTo<PlayerHealthService>().AsSingle();
             Container.BindInterfacesTo<PlayerInteractionService>().AsSingle();
 
             Container.Bind<PlayerMovement>().FromInstance(_movementView).AsSingle();

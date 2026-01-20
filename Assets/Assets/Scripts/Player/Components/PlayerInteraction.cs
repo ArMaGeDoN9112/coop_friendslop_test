@@ -12,6 +12,7 @@ namespace Coop.Player.Components
     {
         private IPlayerInteractionService _interactionService;
         private IInteractionUIService _uiService;
+        private PlayerHealth _playerHealth;
 
         [Inject]
         public void Construct(IPlayerInteractionService interactionService, IInteractionUIService uiService)
@@ -20,9 +21,11 @@ namespace Coop.Player.Components
             _uiService = uiService;
         }
 
+        private void Awake() => _playerHealth = GetComponent<PlayerHealth>();
+
         private void Update()
         {
-            if (!isLocalPlayer) return;
+            if (!isLocalPlayer || _playerHealth.IsWounded) return;
 
             bool found = _interactionService.TryGetInteractable(true, out var interactable);
 

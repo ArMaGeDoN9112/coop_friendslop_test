@@ -31,7 +31,7 @@ namespace Coop.Player.Components
             _networkAnimator = GetComponent<NetworkAnimator>();
         }
 
-        public override void OnStartClient() => HandleWoundedState(_playerHealth.isWounded);
+        public override void OnStartClient() => HandleWoundedState(_playerHealth.IsWounded);
 
         private void OnEnable() => _lastPosition = transform.position;
 
