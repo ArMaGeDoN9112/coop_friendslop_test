@@ -8,7 +8,7 @@ namespace Coop.Player.Services
 
         public PlayerHealthService(CharacterController controller) => _controller = controller;
 
-        public void ApplyStateEffects(bool isWounded)
+        public void ApplyStateEffects(bool isWounded) // TODO: refactor
         {
             if (isWounded)
             {

@@ -1,18 +1,19 @@
-﻿using Coop.Player.Components;
+﻿using Coop.Configs;
+using Coop.Player.Components;
 using UnityEngine;
+using Zenject;
 
 namespace Coop.Interaction.InteractableObjects
 {
     public class ReviveComponent : MonoBehaviour, IInteractable
     {
-        [Header("UI Settings")] [SerializeField]
-        private string _promptText = "Hold E to Revive";
-
-        [Tooltip("Точка, где будет висеть текст (обычно над головой)")] [SerializeField]
+        [Tooltip("Точка, где будет висеть текст (обычно над головой)"), SerializeField]
         private Transform _interactionAnchor;
 
         private PlayerHealth _playerHealth;
 
+        [Inject]
+        private void Construct(PlayerConfig playerConfig) => InteractionPrompt = playerConfig.ReviveHint;
 
         private void Awake() => _playerHealth = GetComponent<PlayerHealth>();
 
@@ -20,18 +21,13 @@ namespace Coop.Interaction.InteractableObjects
 
         #region IInteractable
 
-        public string InteractionPrompt => _promptText;
+        public string InteractionPrompt { get; private set; }
 
         public bool CanInteract { get; private set; }
 
         public Transform InteractionAnchor => _interactionAnchor;
 
-        public void OnInteract(GameObject interactor)
-        {
-            if (!_playerHealth) return;
-
-            _playerHealth.Revive();
-        }
+        public void OnInteract(GameObject interactor) => _playerHealth.Revive();
 
         #endregion
     }

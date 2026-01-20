@@ -19,8 +19,7 @@ namespace Coop.Installers
 
             Container.Bind<InteractionHintView>().FromComponentInNewPrefab(_hintPrefab).AsSingle();
             Container.BindInterfacesTo<InteractionUIService>().AsSingle();
-
-
+            
             Container.Bind<Camera>().FromComponentInHierarchy().AsCached();
         }
     }

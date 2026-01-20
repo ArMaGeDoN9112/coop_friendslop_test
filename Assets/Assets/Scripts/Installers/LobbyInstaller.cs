@@ -25,8 +25,5 @@ namespace Coop.Installers
             Container.BindInterfacesTo<InteractionUIService>().AsSingle();
             Container.Bind<InteractionHintView>().FromComponentInNewPrefab(_interactionHintPrefab).AsSingle();
         }
-
-        private NetworkIdentity GetDummyIdentity(InjectContext ctx) =>
-            _lobbyPlayerController.GetComponent<NetworkIdentity>();
     }
 }

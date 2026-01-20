@@ -1,4 +1,4 @@
-﻿using Coop.Configs;
+﻿using Coop.Utils;
 using Mirror;
 using UnityEngine;
 using Zenject;

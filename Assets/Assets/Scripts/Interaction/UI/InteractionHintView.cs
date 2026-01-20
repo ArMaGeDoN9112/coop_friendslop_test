@@ -9,7 +9,7 @@ namespace Coop.Interaction.UI
         [SerializeField] private TMP_Text _promptText;
 
         private readonly Vector3 _offset = new(0, 0.5f, 0);
-        private Transform _target;
+        private Transform _anchorTransfrom;
         private Camera _mainCamera;
 
         private void Awake()
@@ -21,7 +21,7 @@ namespace Coop.Interaction.UI
         public void Show(string text, Transform targetAnchor)
         {
             _promptText.text = text;
-            _target = targetAnchor;
+            _anchorTransfrom = targetAnchor;
             _canvas.enabled = true;
             UpdatePosition();
         }
@@ -29,28 +29,21 @@ namespace Coop.Interaction.UI
         public void Hide()
         {
             _canvas.enabled = false;
-            _target = null;
+            _anchorTransfrom = null;
         }
 
         private void LateUpdate()
         {
-            if (!_canvas.enabled || !_target) return;
+            if (!_canvas.enabled || !_anchorTransfrom) return;
 
             UpdatePosition();
             LookAtCamera();
         }
 
-        private void UpdatePosition()
-        {
-            if (_target) transform.position = _target.position + _offset;
-        }
+        private void UpdatePosition() => transform.position = _anchorTransfrom.position + _offset;
 
-        private void LookAtCamera()
-        {
-            if (!_mainCamera) _mainCamera = Camera.main;
-            if (_mainCamera)
-                transform.LookAt(transform.position + _mainCamera.transform.rotation * Vector3.forward,
-                    _mainCamera.transform.rotation * Vector3.up);
-        }
+        private void LookAtCamera() =>
+            transform.LookAt(transform.position + _mainCamera.transform.rotation * Vector3.forward,
+                _mainCamera.transform.rotation * Vector3.up);
     }
 }

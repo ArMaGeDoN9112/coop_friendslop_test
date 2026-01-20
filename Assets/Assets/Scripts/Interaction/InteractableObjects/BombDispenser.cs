@@ -9,13 +9,10 @@ namespace Coop.Interaction.InteractableObjects
     [RequireComponent(typeof(NetworkIdentity))]
     public class BombDispenser : NetworkBehaviour, IInteractable
     {
-        [Header("Settings")] [SerializeField] private string _promptText;
-
-        [Header("Visuals")] [SerializeField] private Transform _interactionAnchor;
-
-        [Header("Spawning")] [SerializeField] private Transform _spawnPoint;
-
-        [Header("Effects")] [SerializeField] private ParticleSystem _activationParticles;
+        [SerializeField] private string _promptText;
+        [SerializeField] private Transform _interactionAnchor;
+        [SerializeField] private Transform _spawnPoint;
+        [SerializeField] private ParticleSystem _activationParticles;
 
         [SyncVar] private bool _isBusy;
 
@@ -55,7 +52,7 @@ namespace Coop.Interaction.InteractableObjects
             StartCoroutine(SpawnRoutine());
         }
 
-        private IEnumerator SpawnRoutine()
+        private IEnumerator SpawnRoutine() //TODO: refactor with unitask
         {
             _isBusy = true;
 
@@ -67,7 +64,8 @@ namespace Coop.Interaction.InteractableObjects
             NetworkServer.Spawn(bomb);
 
             if (bomb.TryGetComponent(out Rigidbody rb))
-                rb.AddForce(_spawnPoint.forward * 5f + Vector3.up * 2f, ForceMode.Impulse); // TODO: move to config
+                rb.AddForce(_spawnPoint.forward * _bombDispencerConfig.ForwardStrength +
+                            Vector3.up * _bombDispencerConfig.UpStrength, ForceMode.Impulse);
 
             _isBusy = false;
         }

@@ -2,7 +2,7 @@
 using UnityEngine.SceneManagement;
 using Zenject;
 
-namespace Coop.Configs
+namespace Coop.Utils
 {
     public class CustomNetworkManager : NetworkManager
     {
