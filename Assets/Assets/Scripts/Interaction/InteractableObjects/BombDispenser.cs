@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Coop.Configs;
+using Coop.Utils;
 using Mirror;
 using UnityEngine;
 using Zenject;
@@ -18,15 +19,16 @@ namespace Coop.Interaction.InteractableObjects
 
         private AudioSource _audioSource;
         private GameObject _bombPrefab;
-        private DiContainer _container;
         private BombDispencerConfig _bombDispencerConfig;
+        private IPrefabFactory _prefabFactory;
 
         [Inject]
-        public void Construct(DiContainer container, BombConfig bombConfig, BombDispencerConfig bombDispencerConfig)
+        public void Construct(BombConfig bombConfig, BombDispencerConfig bombDispencerConfig,
+            IPrefabFactory prefabFactory)
         {
-            _container = container;
             _bombPrefab = bombConfig.BombPrefab;
             _bombDispencerConfig = bombDispencerConfig;
+            _prefabFactory = prefabFactory;
         }
 
         private void Awake() => _audioSource = GetComponent<AudioSource>();
@@ -60,7 +62,7 @@ namespace Coop.Interaction.InteractableObjects
 
             yield return new WaitForSeconds(_bombDispencerConfig.SpawnDelay);
 
-            var bomb = _container.InstantiatePrefab(_bombPrefab, _spawnPoint.position, _spawnPoint.rotation, null);
+            var bomb = _prefabFactory.Create(_bombPrefab, null, _spawnPoint.position, _spawnPoint.rotation);
             NetworkServer.Spawn(bomb);
 
             if (bomb.TryGetComponent(out Rigidbody rb))

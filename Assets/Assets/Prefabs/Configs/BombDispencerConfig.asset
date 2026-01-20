@@ -15,3 +15,5 @@ MonoBehaviour:
   <SpawnDelay>k__BackingField: 1
   <UsageSound>k__BackingField: {fileID: 8300000, guid: f9517356afb533a41b9e7cb6f155031e, type: 3}
   <InteractionHintText>k__BackingField: Shoot
+  <ForwardStrength>k__BackingField: 5
+  <UpStrength>k__BackingField: 2

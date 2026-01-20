@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using Coop.Utils;
+using Mirror;
 using UnityEngine;
 using Zenject;
 
@@ -6,15 +7,16 @@ namespace Coop.Configs
 {
     public class MirrorZenjectBridge : IInitializable
     {
-        private readonly DiContainer _container;
         private readonly NetworkManager _networkManager;
         private readonly PrefabsConfig _prefabsConfig;
+        private readonly IPrefabFactory _prefabFactory;
 
-        public MirrorZenjectBridge(DiContainer container, NetworkManager networkManager, PrefabsConfig prefabsConfig)
+        public MirrorZenjectBridge(NetworkManager networkManager, PrefabsConfig prefabsConfig,
+            IPrefabFactory prefabFactory)
         {
-            _container = container;
             _networkManager = networkManager;
             _prefabsConfig = prefabsConfig;
+            _prefabFactory = prefabFactory;
         }
 
         public void Initialize()
@@ -33,7 +35,7 @@ namespace Coop.Configs
         }
 
         private GameObject SpawnHandler(GameObject prefab, SpawnMessage msg) =>
-            _container.InstantiatePrefab(prefab, msg.position, msg.rotation, null);
+            _prefabFactory.Create(prefab, null, msg.position, msg.rotation);
 
         private static void UnspawnHandler(GameObject spawnedObj) => Object.Destroy(spawnedObj);
     }

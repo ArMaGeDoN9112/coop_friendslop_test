@@ -2,6 +2,7 @@
 using Coop.Interaction;
 using Coop.Interaction.UI;
 using Coop.Scene;
+using Coop.Utils;
 using UnityEngine;
 using Zenject;
 
@@ -19,8 +20,10 @@ namespace Coop.Installers
 
             Container.Bind<InteractionHintView>().FromComponentInNewPrefab(_hintPrefab).AsSingle();
             Container.BindInterfacesTo<InteractionUIService>().AsSingle();
-            
+
             Container.Bind<Camera>().FromComponentInHierarchy().AsCached();
+
+            Container.BindInterfacesTo<PrefabFactory>().AsSingle();
         }
     }
 }
