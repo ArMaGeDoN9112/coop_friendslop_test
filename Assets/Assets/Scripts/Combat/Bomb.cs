@@ -9,18 +9,10 @@ namespace Coop.Combat
 {
     public class Bomb : NetworkBehaviour
     {
-        private Renderer _renderer;
-        private Collider _collider;
         private BombConfig _bombConfig;
 
         [Inject]
         private void Construct(BombConfig bombConfig) => _bombConfig = bombConfig;
-
-        private void Awake()
-        {
-            _renderer = GetComponent<Renderer>();
-            _collider = GetComponent<Collider>();
-        }
 
         public override void OnStartServer() => ExplosionRoutineAsync().Forget();
 
