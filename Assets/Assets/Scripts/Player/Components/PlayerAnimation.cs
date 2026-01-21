@@ -11,7 +11,6 @@ namespace Coop.Player.Components
         private float _dampTime;
         private Animator _animator;
         private PlayerHealth _playerHealth;
-        private NetworkAnimator _networkAnimator;
         private Vector3 _lastPosition;
 
         private static readonly int SpeedHash = Animator.StringToHash("Speed");
@@ -19,16 +18,12 @@ namespace Coop.Player.Components
         private static readonly int InteractHash = Animator.StringToHash("Interact");
 
         [Inject]
-        public void Construct(PlayerHealth playerHealth, PlayerConfig playerConfig)
-        {
-            _playerHealth = playerHealth;
-            _dampTime = playerConfig.AnimationDampTime;
-        }
+        public void Construct(PlayerConfig playerConfig) => _dampTime = playerConfig.AnimationDampTime;
 
         private void Awake()
         {
             _animator = GetComponent<Animator>();
-            _networkAnimator = GetComponent<NetworkAnimator>();
+            _playerHealth = GetComponent<PlayerHealth>();
         }
 
         public override void OnStartClient() => HandleWoundedState(_playerHealth.IsWounded);
@@ -49,7 +44,5 @@ namespace Coop.Player.Components
         }
 
         public void HandleWoundedState(bool isWounded) => _animator.SetBool(IsWoundedHash, isWounded);
-
-        public void TriggerInteraction() => _networkAnimator.SetTrigger(InteractHash);
     }
 }

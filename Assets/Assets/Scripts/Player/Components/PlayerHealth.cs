@@ -1,6 +1,5 @@
 ﻿using Coop.Interaction.InteractableObjects;
 using Mirror;
-using Zenject;
 
 namespace Coop.Player.Components
 {
@@ -9,16 +8,13 @@ namespace Coop.Player.Components
         [SyncVar(hook = nameof(OnStateChanged))]
         public bool IsWounded;
 
-        private PlayerMovement _movementView;
+        private PlayerMovement _playerMovement;
         private ReviveComponent _reviveComponent;
         private PlayerAnimation _playerAnimation;
 
-
-        [Inject]
-        public void Construct(PlayerMovement movementView) => _movementView = movementView;
-
         private void Awake()
         {
+            _playerMovement = GetComponent<PlayerMovement>();
             _reviveComponent = GetComponent<ReviveComponent>();
             _playerAnimation = GetComponent<PlayerAnimation>();
         }
@@ -41,7 +37,7 @@ namespace Coop.Player.Components
 
         private void OnStateChanged(bool _, bool newState)
         {
-            _movementView.OnWoundedStateChanged(newState);
+            _playerMovement.OnWoundedStateChanged(newState);
             _reviveComponent.ToggleInteractable(newState);
             _playerAnimation.HandleWoundedState(newState);
         }

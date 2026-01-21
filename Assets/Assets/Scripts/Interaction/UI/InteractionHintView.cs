@@ -28,7 +28,7 @@ namespace Coop.Interaction.UI
 
         public void Hide()
         {
-            _canvas.enabled = false;
+            if (_canvas) _canvas.enabled = false;
             _anchorTransfrom = null;
         }
 

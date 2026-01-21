@@ -126,12 +126,12 @@ GameObject:
   - component: {fileID: 4843941251624001467}
   - component: {fileID: 1547739893458447876}
   - component: {fileID: 1982805034350735921}
+  - component: {fileID: 53633286773963100}
   - component: {fileID: 8077469107408807100}
   - component: {fileID: -4347442194335964064}
   - component: {fileID: 191341200991528787}
   - component: {fileID: 2831037567743142213}
   - component: {fileID: 2271132162854083588}
-  - component: {fileID: 53633286773963100}
   - component: {fileID: 869929100615016614}
   m_Layer: 6
   m_Name: Player 1
@@ -314,6 +314,22 @@ MonoBehaviour:
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
+--- !u!114 &53633286773963100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2493592313726845606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 842410012218455db027a93fc1613dbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _characterController: {fileID: 2126460041881018867}
+  _cameraRoot: {fileID: 6892568058020009514}
+  _movementView: {fileID: 191341200991528787}
+  _healthView: {fileID: 8077469107408807100}
 --- !u!114 &8077469107408807100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,7 +345,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  isWounded: 0
+  IsWounded: 0
 --- !u!114 &-4347442194335964064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,8 +392,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  PlayerName: 
-  PlayerColor: {r: 1, g: 1, b: 1, a: 1}
   _bodyRenderer: {fileID: 1449042566607015912}
   _nameLabel3D: {fileID: 1561971690215705579}
 --- !u!114 &2271132162854083588
@@ -392,24 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb9b8a713af4892ac7f4c3660087bba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _promptText: Hold E to Revive
   _interactionAnchor: {fileID: 3701703188460066231}
---- !u!114 &53633286773963100
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2493592313726845606}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 842410012218455db027a93fc1613dbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _characterController: {fileID: 2126460041881018867}
-  _cameraRoot: {fileID: 6892568058020009514}
-  _movementView: {fileID: 191341200991528787}
-  _healthView: {fileID: 8077469107408807100}
 --- !u!114 &869929100615016614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,7 +422,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _dampTime: 0.1
 --- !u!1 &2596871243017815259
 GameObject:
   m_ObjectHideFlags: 0

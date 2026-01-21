@@ -8,7 +8,7 @@ namespace Coop.Player.Components
     public class PlayerInfo : NetworkBehaviour
     {
         [SyncVar(hook = nameof(OnNameChanged))]
-        public string PlayerName;
+        private string _playerName;
 
         [Header("Visuals")] [SerializeField] private Renderer _bodyRenderer;
         [SerializeField] private TMP_Text _nameLabel3D;
@@ -27,7 +27,7 @@ namespace Coop.Player.Components
         }
 
         [Command]
-        private void CmdSetupPlayer(string name) => PlayerName = name;
+        private void CmdSetupPlayer(string name) => _playerName = name;
 
         private void OnNameChanged(string _, string newName)
         {

@@ -19,10 +19,8 @@ namespace Coop.Installers
             Container.BindInterfacesTo<PlayerInteractionService>().AsSingle();
 
             Container.Bind<PlayerMovement>().FromInstance(_movementView).AsSingle();
-            Container.Bind<PlayerHealth>().FromInstance(_healthView).AsSingle();
 
             Container.Bind<CharacterController>().FromInstance(_characterController).AsSingle();
-            Container.Bind<Transform>().WithId("CameraRoot").FromInstance(_cameraRoot).AsCached();
 
             Container.Bind<NetworkIdentity>().FromComponentInHierarchy().AsSingle();
         }

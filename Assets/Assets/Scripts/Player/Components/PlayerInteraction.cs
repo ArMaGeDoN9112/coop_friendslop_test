@@ -47,10 +47,7 @@ namespace Coop.Player.Components
         private void HandleInteraction(IInteractable interactable)
         {
             var component = interactable as Component;
-            if (!component) return;
-
-            var netIdentity = component.GetComponentInParent<NetworkIdentity>();
-            if (netIdentity) CmdTryInteract(netIdentity.gameObject);
+            if (component) CmdTryInteract(component.gameObject);
         }
 
         [Command]

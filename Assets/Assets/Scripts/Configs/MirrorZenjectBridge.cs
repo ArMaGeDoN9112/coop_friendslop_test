@@ -1,4 +1,5 @@
-﻿using Coop.Utils;
+﻿using System;
+using Coop.Utils;
 using Mirror;
 using UnityEngine;
 using Zenject;
@@ -6,7 +7,7 @@ using Object = UnityEngine.Object;
 
 namespace Coop.Configs
 {
-    public class MirrorZenjectBridge : IInitializable
+    public class MirrorZenjectBridge : IInitializable, IDisposable
     {
         private readonly NetworkManager _networkManager;
         private readonly PrefabsConfig _prefabsConfig;
