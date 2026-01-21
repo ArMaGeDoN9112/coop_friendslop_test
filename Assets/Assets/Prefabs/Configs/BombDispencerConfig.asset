@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BombDispencerConfig
   m_EditorClassIdentifier: 
   <SpawnDelay>k__BackingField: 1
-  <UsageSound>k__BackingField: {fileID: 8300000, guid: f9517356afb533a41b9e7cb6f155031e, type: 3}
+  <UsageSound>k__BackingField: {fileID: 8300000, guid: 3fa2c92150a7a67488c56326d9ad5354, type: 3}
   <InteractionHintText>k__BackingField: Shoot
-  <ForwardStrength>k__BackingField: 5
+  <ForwardStrength>k__BackingField: 8
   <UpStrength>k__BackingField: 2

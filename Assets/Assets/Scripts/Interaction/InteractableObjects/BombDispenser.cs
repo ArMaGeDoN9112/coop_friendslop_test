@@ -60,12 +60,11 @@ namespace Coop.Interaction.InteractableObjects
 
             try
             {
-                RpcPlayEffects();
-
                 await UniTask.WaitForSeconds(_bombDispencerConfig.SpawnDelay,
                     cancellationToken: this.GetCancellationTokenOnDestroy());
 
-                if (!this) return;
+
+                RpcPlayEffects();
 
                 var bomb = _prefabFactory.Create(_bombPrefab, null, _spawnPoint.position, _spawnPoint.rotation);
                 NetworkServer.Spawn(bomb);
