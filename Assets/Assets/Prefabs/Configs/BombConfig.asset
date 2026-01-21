@@ -15,5 +15,5 @@ MonoBehaviour:
   <BombPrefab>k__BackingField: {fileID: 4075605326332463876, guid: ea233dd839ed4b248ab772c245604ef8, type: 3}
   <TimeToExplode>k__BackingField: 3
   <ExplosionRadius>k__BackingField: 5
-  <ExplosionVFXPrefab>k__BackingField: {fileID: 3541824122575945221, guid: 7fc6fa075b814ed46a22758d73d16b55, type: 3}
-  <SoundEffect>k__BackingField: {fileID: 8300000, guid: 69c81960d0ad31d4496095e380c0f632, type: 3}
+  <ExplosionVFXPrefab>k__BackingField: {fileID: 2433282508537954060, guid: 234c1fff447d32248bbecaa51296928a, type: 3}
+  <SoundEffect>k__BackingField: {fileID: 8300000, guid: fc96116dc3c141440aabb5605744fea2, type: 3}

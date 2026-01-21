@@ -36,7 +36,6 @@ namespace Coop.Combat
         [Server]
         private void Explode()
         {
-            RpcHideVisuals();
             RpcSpawnExplosionEffect(transform.position);
 
             var hits = Physics.OverlapSphere(transform.position, _bombConfig.ExplosionRadius);
@@ -47,13 +46,6 @@ namespace Coop.Combat
             }
 
             DestroyWithDelayAsync().Forget();
-        }
-
-        [ClientRpc]
-        private void RpcHideVisuals()
-        {
-            _renderer.enabled = false;
-            _collider.enabled = false;
         }
 
         [ClientRpc]
